@@ -1,11 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom"
 
 export const Categorias = () => {
-const { id } = useParams();
+    const { id } = useParams();
 
-    return(
+    return (
         <>
-           <h1>Categorias {id}</h1>
+            <h1>Categorias {id}</h1>
         </>
     )
 }
