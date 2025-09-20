@@ -3,6 +3,7 @@ import { Home } from "./pages/Home";
 import { Sobre } from "./pages/Sobre";
 import { Categorias } from "./pages/Categorias";
 import { Usuarios } from "./pages/Usuarios";
+import GerenciarUsuarios from "./pages/Usuarios/Gerenciar";
 
 export function Rotas() {
   return (
@@ -12,7 +13,10 @@ export function Rotas() {
         <Route path="/sobre/:id" element={<Sobre />} />
         <Route path="/categorias/:id" element={<Categorias />} />
         <Route path="/usuarios" element={<Usuarios />} />
+        <Route path="/usuarios/:id" element={<GerenciarUsuarios/>}/>
       </Routes>
     </Router>
   );
 }
+
+

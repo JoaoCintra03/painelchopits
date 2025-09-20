@@ -1,11 +1,9 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect } from "react";
 
 export const Home = () => {
   const [tarefa, setTarefa] = useState("");
   const [tarefas, setTarefas] = useState<string[]>([]);
-
-  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const armazenadas = localStorage.getItem("tarefas");
@@ -13,17 +11,15 @@ export const Home = () => {
       setTarefas(JSON.parse(armazenadas));
     }
   }, []);
-
   useEffect(() => {
     localStorage.setItem("tarefas", JSON.stringify(tarefas));
   }, [tarefas]);
 
-  const adicionarTarefa = useCallback(() => {
+  const adicionarTarefa = () => {
     if (tarefa.trim() === "") return;
-    setTarefas((prev) => [...prev, tarefa]);
+    setTarefas([...tarefas, tarefa]);
     setTarefa("");
-    inputRef.current?.focus();
-  }, [tarefa]);
+  };
 
   return (
     <div style={{ padding: 20 }}>
@@ -36,7 +32,6 @@ export const Home = () => {
 
       <h2>Lista de Tarefas</h2>
       <input
-        ref={inputRef}
         type="text"
         value={tarefa}
         onChange={(e) => setTarefa(e.target.value)}
@@ -52,3 +47,4 @@ export const Home = () => {
     </div>
   );
 };
+  
