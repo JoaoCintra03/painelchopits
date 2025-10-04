@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import { FaPen, FaTrash } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
@@ -7,6 +7,8 @@ interface IUsuarios {
     id: number;
     nome: string;
     email: string;
+    permissao: string;
+    senha: string
 }
 
 export const Usuarios = () => {
@@ -29,6 +31,21 @@ export const Usuarios = () => {
             })
     }, [])
 
+const excluirUsuarios = useCallback(async(id: number) => {
+
+    try {await axios.delete(`http://localhost:3001/usuarios/${id}`)
+
+    const {data} = await axios.get('http://localhost:3001/usuarios')
+
+    setUsuarios(data) 
+   } catch (erro) {
+    alert('Erro: Ligue para o suporte: ')
+    console.log(erro)
+   }
+}, [])
+    
+
+
     return (
         <>
             <div
@@ -43,10 +60,10 @@ export const Usuarios = () => {
                     type="button"
                     className="btn btn-success"
                     onClick={() => {
-                        navigate('usuarios/cadastrar')
+                        navigate('cadastrar')
                     }}
                 >
-                    Adicionar
+                    Cadastrar
                 </button>
             </div>
             <table className="table">
@@ -55,6 +72,8 @@ export const Usuarios = () => {
                         <th scope="col">#</th>
                         <th scope="col">Nome</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Permissões</th>
+                        <th scope="col">Senha</th>
                         <th scope="col">Ações</th>
                     </tr>
                 </thead>
@@ -66,7 +85,9 @@ export const Usuarios = () => {
                                     <th scope="row">{usuario.id}</th>
                                     <td>{usuario.nome}</td>
                                     <td>{usuario.email}</td>
-                                    <td>
+                                    <td>{usuario.permissao}</td>
+                                    <td>*********</td>
+                                    <td>    
                                         <button
                                             className="btn btn-primary"
                                             type="button"
@@ -79,7 +100,10 @@ export const Usuarios = () => {
                                         </button>
                                         <button
                                             className="btn btn-danger"
-                                            type="submit"
+                                            type="button"
+                                            onClick={() => {
+                                                excluirUsuarios(usuario.id)
+                                            }}
                                         >
                                             <FaTrash />
                                         </button>
